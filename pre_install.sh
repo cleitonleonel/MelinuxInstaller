@@ -4,6 +4,7 @@
 # For Melinux contribs and components
 
 sudo apt update & sudo apt upgrade -y
+sudo apt-get install -y libssl-dev zlib1g-dev gcc g++ make
 
 sudo chown -R $USER:$USER ./
 
