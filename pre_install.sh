@@ -122,6 +122,23 @@ elif [[ "${OS}" == "Raspberry" ]];
     project_system='arm_melinux'
 fi
 
+declare -a array=()
+i=0
+
+while IFS= read -r line; do
+    array[i]=$line
+    let "i++"
+done < "config/profile.py"
+
+user=${array[0]} | sed "s/GITHUB_USERNAME = '/'/g"
+pass=${array[1]} | sed "s/GITHUB_PASSWORD = '/'/g"
+
+if [[ "${username}" == "" ]];
+  then
+    echo 'Antes de executar esse arquivo configure o arquivo profile.py em' /home/$USER/MelinuxInstaller/config/
+    exit 0
+fi
+
 # Mudando de diretório e movendo os arquivos
 sudo mv * ../arm_melinux
 dir=../arm_melinux
@@ -156,8 +173,8 @@ echo 'Instalando o projeto...'
 #echo 'Digite sua senha do github'
 #read password
 
-username=""
-password=""
+username=${user}
+password=${pass}
 
 git clone https://${username}:${password}@github.com/otmasolucoes/test_project.git ./temp
 
