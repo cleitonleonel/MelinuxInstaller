@@ -128,12 +128,14 @@ i=0
 while IFS= read -r line; do
     array[i]=$line
     let "i++"
-done < "config/profile.py"
+done < "/home/MelinuxInstaller/config/profile.py"
 
-user=${array[0]} | sed "s/GITHUB_USERNAME = '/'/g"
-pass=${array[1]} | sed "s/GITHUB_PASSWORD = '/'/g"
+user=$(echo {array[0]} | sed "s/GITHUB_USERNAME = '/'/g")
+pass=$(echo {array[1]} | sed "s/GITHUB_PASSWORD = '/'/g")
+user=$(echo ${user} | sed "s/'//g")
+pass=$(echo ${pass} | sed "s/'//g")
 
-if [[ "${username}" == "" ]];
+if [[ "${user}" == "" ]];
   then
     echo 'Antes de executar esse arquivo configure o arquivo profile.py em' /home/$USER/MelinuxInstaller/config/
     exit 0
@@ -167,14 +169,11 @@ ${py} ${manager}
 # Download do projeto
 echo 'Instalando o projeto...'
 
-#echo 'Digite seu usuário github'
-#read username
-
-#echo 'Digite sua senha do github'
-#read password
-
 username=${user}
 password=${pass}
+
+echo ${username}
+echo ${password}
 
 git clone https://${username}:${password}@github.com/otmasolucoes/test_project.git ./temp
 
