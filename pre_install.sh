@@ -82,6 +82,13 @@ else
     sudo apt install postgresql postgresql-contrib -y
 fi
 
+# Criando usuário Postgrsql
+echo 'Criando senha para o usuário 'postgres'...'
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';"
+
+echo 'Criando database...'
+sudo -u postgres createdb 'test_project'
+
 # Check and installing Python3
 if which python3 > /dev/null 2>&1;
 then
@@ -124,8 +131,9 @@ cd ${dir}
 echo 'Criando ambiente virtual do projeto'
 python3 -m pip install virtualenv
 virtualenv venv_melinux
+env='venv_melinux/bin/activate'
 echo 'Ativando ambiente virtual'
-source venv_melinux/bin/activate
+source ${env}
 
 #echo 'Desativando ambiente virtual'
 #deactivate
@@ -136,7 +144,7 @@ py="/home/${project_system}/venv_melinux/bin/python"
 pip_install="pip install"
 pip_uninstall="pip uninstall"
 manager="install_project.py install"
-${py} "${pip_install} -U setuptools"
+${pip_install} -U setuptools
 ${py} ${manager}
 
 # Download do projeto
@@ -161,13 +169,15 @@ sudo mv ./profile.py ./conf/profile.py
 
 # Instalando dependências do frontend
 echo "Bower install, dependências frontend..."
-bower_install="manage.py bower_install"
+bower_install="manage.py bower_install --allow-root"
 ${py} ${bower_install}
 
 # Subindo as migrações para o banco de dados.
 echo 'Populando o banco de dados...'
 db_clean="manage.py db_clean authentication entities communications security commons products commands"
 ${py} ${db_clean}
+
+source ${env}
 
 #run="manage.py runserver"
 #${py} ${run}
