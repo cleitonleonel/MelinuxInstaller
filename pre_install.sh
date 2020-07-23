@@ -3,7 +3,9 @@
 # Otmasolucoes version 2020
 # For Melinux contribs and components
 
-# sudo apt update & sudo apt upgrade -y
+sudo apt update & sudo apt upgrade -y
+
+sudo chown -R $USER:$USER ./
 
 # Check Sistema Operacional
 ARCH=$(uname -m)
@@ -96,6 +98,21 @@ fi
 echo 'Instalando uma correção de libs python3...'
 sudo apt install python3-dev
 
+# Definindo o path do projeto
+
+echo 'Path do projeto'
+if [[ "${OS}" == "Linux-x86_64" ]];
+  then
+    project_system='lin_melinux'
+elif [[ "${OS}" == "Raspberry" ]];
+  then
+    project_system='arm_melinux'
+fi
+
+# Mudando de diretório e movendo os arquivos
+sudo mv '*' ../arm_melinux
+cd ../
+
 # Create virtualenv
 echo 'Criando ambiente virtual do projeto'
 python3 -m pip install virtualenv
@@ -108,21 +125,19 @@ source venv_melinux/bin/activate
 
 # Dependências do projeto
 echo 'Instalando o requirements do projeto...'
-if [[ "${OS}" == "Linux-x86_64" ]];
-  then
-    project_system='lin_melinux'
-elif [[ "${OS}" == "Raspberry" ]];
-  then
-    project_system='arm_melinux'
-fi
 py="/home/${project_system}/venv_melinux/bin/python"
 manager="install_project.py install"
 ${py} ${manager}
 
 # Download do projeto
 echo 'Instalando o projeto...'
-username="cleitonleonel"
-password="98651597a"
+
+echo 'Digite seu usuário github'
+read username
+
+echo 'Dgite sua senha do github'
+read password
+
 git clone https://${username}:${password}@github.com/otmasolucoes/test_project.git ./temp
 
 # Movendo arquivos
