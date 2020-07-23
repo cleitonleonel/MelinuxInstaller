@@ -133,11 +133,14 @@ ${py} ${manager}
 # Download do projeto
 echo 'Instalando o projeto...'
 
-echo 'Digite seu usuário github'
-read username
+#echo 'Digite seu usuário github'
+#read username
 
-echo 'Digite sua senha do github'
-read password
+#echo 'Digite sua senha do github'
+#read password
+
+username=""
+password=""
 
 git clone https://${username}:${password}@github.com/otmasolucoes/test_project.git ./temp
 
