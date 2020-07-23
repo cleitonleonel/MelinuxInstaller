@@ -130,8 +130,10 @@ while IFS= read -r line; do
     let "i++"
 done < "/home/MelinuxInstaller/config/profile.py"
 
-user=$(echo {array[0]} | sed "s/GITHUB_USERNAME = '/'/g")
-pass=$(echo {array[1]} | sed "s/GITHUB_PASSWORD = '/'/g")
+user=$(echo ${array[0]} | sed "s/GITHUB_USERNAME = '/'/g")
+
+pass=$(echo ${array[1]} | sed "s/GITHUB_PASSWORD = '/'/g")
+
 user=$(echo ${user} | sed "s/'//g")
 pass=$(echo ${pass} | sed "s/'//g")
 
