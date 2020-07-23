@@ -3,8 +3,13 @@
 # Otmasolucoes version 2020
 # For Melinux contribs and components
 
+# Iniciando instalação
 sudo apt update & sudo apt upgrade -y
-sudo apt-get install -y libssl-dev zlib1g-dev gcc g++ make
+
+echo 'Instalando libs extra'
+sudo apt install libhdf5-dev
+sudo apt install -y libpq-dev
+sudo apt install -y libssl-dev zlib1g-dev gcc g++ make
 
 sudo chown -R $USER:$USER ./
 
