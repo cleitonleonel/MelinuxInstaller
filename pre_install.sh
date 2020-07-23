@@ -110,8 +110,9 @@ elif [[ "${OS}" == "Raspberry" ]];
 fi
 
 # Mudando de diretório e movendo os arquivos
-sudo mv '*' ../arm_melinux
-cd ../
+sudo mv * ../arm_melinux
+dir=../arm_melinux
+cd ${dir}
 
 # Create virtualenv
 echo 'Criando ambiente virtual do projeto'
@@ -135,7 +136,7 @@ echo 'Instalando o projeto...'
 echo 'Digite seu usuário github'
 read username
 
-echo 'Dgite sua senha do github'
+echo 'Digite sua senha do github'
 read password
 
 git clone https://${username}:${password}@github.com/otmasolucoes/test_project.git ./temp
@@ -152,7 +153,7 @@ bower_install="manage.py bower_install"
 ${py} ${bower_install}
 
 # Subindo as migrações para o banco de dados.
-echo 'Criando o banco de dados...'
+echo 'Populando o banco de dados...'
 db_clean="manage.py db_clean authentication entities communications security commons products commands"
 ${py} ${db_clean}
 
