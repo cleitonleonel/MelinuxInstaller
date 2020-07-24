@@ -151,7 +151,8 @@ cd ${dir}
 
 # Create virtualenv
 echo 'Criando ambiente virtual do projeto'
-python3 -m pip install virtualenv
+# python3 -m pip install virtualenv --no-warn-script-location
+sudo apt install python3-virtualenv -y
 virtualenv venv_melinux
 env='venv_melinux/bin/activate'
 echo 'Ativando ambiente virtual'
