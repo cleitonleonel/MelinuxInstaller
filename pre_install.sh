@@ -12,6 +12,7 @@ sudo apt install -y libpq-dev
 sudo apt install -y libssl-dev zlib1g-dev gcc g++ make
 
 sudo chown -R $USER:$USER ./
+sudo mkdir ../arm_melinux
 
 # Check Sistema Operacional
 ARCH=$(uname -m)
@@ -130,7 +131,7 @@ while IFS= read -r line; do
     let "i++"
 done < "/home/MelinuxInstaller/config/profile.py"
 
-user=$(echo ${array[0]} | sed "s/GITHUB_USERNAME = '/'/g")
+user=$(echo ${array[0]} | sed "s/GITHUB_USER = '/'/g")
 
 pass=$(echo ${array[1]} | sed "s/GITHUB_PASSWORD = '/'/g")
 
@@ -140,7 +141,7 @@ pass=$(echo ${pass} | sed "s/'//g")
 if [[ "${user}" == "" ]];
   then
     echo 'Antes de executar esse arquivo configure o arquivo profile.py em' /home/$USER/MelinuxInstaller/config/
-    exit 0
+    exit 2
 fi
 
 # Mudando de diretório e movendo os arquivos
