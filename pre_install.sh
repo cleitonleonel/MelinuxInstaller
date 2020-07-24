@@ -71,7 +71,7 @@ then
     echo 'Bower já está instalado.'
 else
     echo 'Instalando bower...'
-    npm install -g bower
+    sudo npm install -g bower
 fi
 
 # Check and installing Postrgresql
