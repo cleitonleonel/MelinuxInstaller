@@ -141,7 +141,7 @@ pass=$(echo ${pass} | sed "s/'//g")
 if [[ "${user}" == "" ]];
   then
     echo 'Antes de executar esse arquivo configure o arquivo profile.py em' /home/$USER/MelinuxInstaller/config/
-    exit 2
+    exit 0
 fi
 
 # Mudando de diretório e movendo os arquivos
