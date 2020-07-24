@@ -105,12 +105,12 @@ then
     echo 'Pip3 já está instalado.'
 else
     echo 'Instalando Pip3...'
-    apt-get install python3-pip
+    sudo apt install python3-pip -y
 fi
 
 # Corrigir possíveis erros na instalação de dependências do python3
 echo 'Instalando uma correção de libs python3...'
-sudo apt install python3-dev
+sudo apt install python3-dev -y
 
 # Definindo o path do projeto
 
