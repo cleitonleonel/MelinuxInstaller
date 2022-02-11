@@ -4,7 +4,7 @@
 # For Melinux contribs and components
 
 # Iniciando instalação
-sudo apt update & sudo apt upgrade -y
+sudo apt update & sudo apt list --upgradable & sudo apt upgrade -y
 
 echo 'Instalando libs extra'
 sudo apt install libhdf5-dev
