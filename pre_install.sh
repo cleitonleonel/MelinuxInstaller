@@ -200,7 +200,6 @@ echo ${username}
 echo ${password}
 echo ${token}
 
-pip3 install git+https://${token}@github.com/otmasolucoes/apps.core.authentication.git
 git clone https://${token}@github.com/otmasolucoes/test_project.git ./temp
 
 # Movendo arquivos
