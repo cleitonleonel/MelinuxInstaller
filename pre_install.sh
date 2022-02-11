@@ -180,7 +180,7 @@ source ${env}
 
 # Dependências do projeto
 echo 'Instalando o requirements do projeto...'
-py="/home/${project_system}/venv_melinux/bin/python"
+py="/home/${project_system}/venv_melinux/bin/python3"
 pip_install="pip install"
 pip_uninstall="pip uninstall"
 manager="install_project.py install"
