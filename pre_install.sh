@@ -120,7 +120,6 @@ else
     echo 'Instalando Python3.8...'
     sudo apt install python3.8 -y
     sudo apt install python3.8-venv -y
-    sudo apt-get install python-is-python3 -y
 fi
 
 # Check and installing pip
