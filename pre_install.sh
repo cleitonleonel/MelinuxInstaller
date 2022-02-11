@@ -21,7 +21,6 @@ sudo apt install libpq-dev -y
 sudo apt install libssl-dev zlib1g-dev gcc g++ make -y
 
 echo $USER
-sudo chown $USER:$USER -R ./
 
 # Check Sistema Operacional
 ARCH=$(uname -m)
@@ -170,13 +169,14 @@ fi
 # Download do projeto
 echo 'Instalando o projeto...'
 echo ${token}
-sudo git clone https://${token}@github.com/otmasolucoes/test_project.git /${project_system}
+sudo git clone https://${token}@github.com/otmasolucoes/test_project.git /home/${project_system}
 
 # Movendo arquivos
 echo 'Configurando as pastas do projeto.'
 sudo mv ./profile.py /home/${project_system}/conf/profile.py
 # Mudando de diretório e movendo os arquivos
 sudo mv * /home/${project_system}
+sudo rm /home/MelinuxInstaller
 sudo chmod 777 -R /home/${project_system}
 cd /home/${project_system} || return
 
