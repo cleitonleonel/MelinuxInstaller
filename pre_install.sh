@@ -117,8 +117,10 @@ if which python3.8 > /dev/null 2>&1;
 then
     echo 'Python3.8 já está instalado.'
 else
-    echo 'Instalando Python3...'
+    echo 'Instalando Python3.8...'
+    sudo apt install python3.8 -y
     sudo apt install python3.8-venv -y
+    sudo apt-get install python-is-python3 -y
 fi
 
 # Check and installing pip
@@ -133,10 +135,8 @@ fi
 
 # Corrigir possíveis erros na instalação de dependências do python3
 echo 'Instalando uma correção de libs python3...'
-sudo apt-get install python-is-python3 -y
 sudo apt install python3-dev -y
 sudo apt install python3-wheel -y
-sudo apt-get install python3-virtualenv -y
 sudo apt autoremove -y
 
 declare -a array=()
@@ -172,7 +172,7 @@ cd /home/${project_system} || exit
 # Create virtualenv
 echo 'Criando ambiente virtual do projeto'
 # python3 -m pip install virtualenv --no-warn-script-location
-python3 -m virtualenv venv_melinux
+python3 -m venv venv_melinux
 env='venv_melinux/bin/activate'
 echo 'Ativando ambiente virtual'
 source ${env}
