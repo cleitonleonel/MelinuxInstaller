@@ -4,12 +4,12 @@
 # For Melinux contribs and components
 
 # Iniciando instalação
-sudo apt update & sudo apt list --upgradable & sudo apt upgrade -y
+sudo apt update & sudo apt list --upgradable & sudo apt upgrade & sudo apt autoremove -y
 
 echo 'Instalando libs extra'
-sudo apt install libhdf5-dev
-sudo apt install -y libpq-dev
-sudo apt install -y libssl-dev zlib1g-dev gcc g++ make
+sudo apt install libhdf5-dev -y
+sudo apt install libpq-dev -y
+sudo apt install libssl-dev zlib1g-dev gcc g++ make -y
 
 sudo chown -R $USER:$USER ./
 
@@ -84,7 +84,7 @@ then
     echo 'Bower já está instalado.'
 else
     echo 'Instalando bower...'
-    sudo npm install -g bower
+    sudo npm install -g bower -y
 fi
 
 # Check and installing Postrgresql
@@ -126,6 +126,7 @@ echo 'Instalando uma correção de libs python3...'
 sudo apt install python3-dev -y
 sudo apt install python3-wheel -y
 sudo apt install python3-virtualenv -y
+sudo apt autoremove -y
 
 declare -a array=()
 i=0
@@ -169,8 +170,8 @@ source ${env}
 # Dependências do projeto
 echo 'Instalando o requirements do projeto...'
 py="/home/${project_system}/venv_melinux/bin/python"
-pip_install="pip install"
-pip_uninstall="pip uninstall"
+pip_install="pip3 install"
+pip_uninstall="pip3 uninstall"
 manager="install_project.py install"
 ${pip_install} --upgrade pip wheel setuptools
 ${py} ${manager}
