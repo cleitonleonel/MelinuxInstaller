@@ -149,7 +149,7 @@ i=0
 while IFS= read -r line; do
     array[i]=$line
     let "i++"
-done < "/home/MelinuxInstaller/config/profile.py"
+done < /home/${USER}/MelinuxInstaller/config/profile.py
 
 user=$(echo ${array[0]} | sed "s/GITHUB_USER = '/'/g")
 
