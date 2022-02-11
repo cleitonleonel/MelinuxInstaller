@@ -113,12 +113,12 @@ echo 'Criando database...'
 sudo -u postgres createdb 'test_project'
 
 # Check and installing Python3
-if which python3 > /dev/null 2>&1;
+if which python3.8 > /dev/null 2>&1;
 then
-    echo 'Python3 já está instalado.'
+    echo 'Python3.8 já está instalado.'
 else
     echo 'Instalando Python3...'
-    sudo apt install python3 -y
+    sudo apt install python3.8-venv -y
 fi
 
 # Check and installing pip
@@ -128,10 +128,12 @@ then
 else
     echo 'Instalando Pip3...'
     sudo apt install python3-pip -y
+    sudo apt install python3-setuptools -y
 fi
 
 # Corrigir possíveis erros na instalação de dependências do python3
 echo 'Instalando uma correção de libs python3...'
+sudo apt-get install python-is-python3 -y
 sudo apt install python3-dev -y
 sudo apt install python3-wheel -y
 sudo apt-get install python3-virtualenv -y
