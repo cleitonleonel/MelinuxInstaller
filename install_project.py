@@ -1,4 +1,3 @@
-# from pip.__main__ import _main as pip
 from pip import main as pip
 import os
 import sys

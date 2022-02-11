@@ -20,7 +20,8 @@ sudo apt install libhdf5-dev -y
 sudo apt install libpq-dev -y
 sudo apt install libssl-dev zlib1g-dev gcc g++ make -y
 
-sudo chown -R $USER:$USER ./
+echo $USER
+sudo chown $USER:$USER -R ./
 
 # Check Sistema Operacional
 ARCH=$(uname -m)
@@ -162,21 +163,28 @@ token=$(echo ${token} | sed "s/'//g")
 
 if [[ "${user}" == "" ]];
   then
-    echo 'Antes de executar esse arquivo configure o arquivo profile.py em' /home/$USER/MelinuxInstaller/config/
+    echo 'Antes de executar esse arquivo configure o arquivo profile.py em' /home/MelinuxInstaller/config/
     exit 0
 fi
 
+# Download do projeto
+echo 'Instalando o projeto...'
+echo ${token}
+sudo git clone https://${token}@github.com/otmasolucoes/test_project.git ./${project_system}
+
+# Movendo arquivos
+echo 'Configurando as pastas do projeto.'
+sudo mv ./profile.py /home/${project_system}/conf/profile.py
 # Mudando de diretório e movendo os arquivos
 sudo mv * /home/${project_system}
 sudo chmod 777 -R /home/${project_system}
-
-cd /home/${project_system} || exit
+cd /home/${project_system} || return
 
 # Create virtualenv
 echo 'Criando ambiente virtual do projeto'
 # python3 -m pip install virtualenv --no-warn-script-location
-python3 -m venv venv_melinux
-env='venv_melinux/bin/activate'
+sudo python3 -m venv /home/venv_melinux
+env='/home/venv_melinux/bin/activate'
 echo 'Ativando ambiente virtual'
 source ${env}
 
@@ -185,31 +193,12 @@ source ${env}
 
 # Dependências do projeto
 echo 'Instalando o requirements do projeto...'
-py="/home/${project_system}/venv_melinux/bin/python3"
-pip_install="pip install"
-pip_uninstall="pip uninstall"
+py="/home/venv_melinux/bin/python3"
+pip_install="pip3 install"
+pip_uninstall="pip3 uninstall"
 manager="install_project.py install"
 ${pip_install} --upgrade pip wheel setuptools
 ${py} ${manager}
-
-# Download do projeto
-echo 'Instalando o projeto...'
-
-username=${user}
-password=${pass}
-token=${token}
-
-echo ${username}
-echo ${password}
-echo ${token}
-
-git clone https://${token}@github.com/otmasolucoes/test_project.git ./temp
-
-# Movendo arquivos
-echo 'Configurando as pastas do projeto.'
-sudo mv ./temp/* ./
-sudo rm -r ./temp
-sudo mv ./profile.py ./conf/profile.py
 
 # Instalando dependências do frontend
 echo "Bower install, dependências frontend..."
