@@ -3,6 +3,12 @@
 # Otmasolucoes version 2022
 # For Melinux contribs and components
 
+sudo rm /var/lib/apt/lists/lock
+sudo rm /var/lib/dpkg/lock
+sudo rm /var/lib/dpkg/lock-frontend
+sudo rm /var/cache/apt/archives/lock
+sudo dpkg --configure -a
+
 # Iniciando instalação
 sudo apt update & sudo apt list --upgradable & sudo apt upgrade & sudo apt autoremove -y
 
@@ -125,8 +131,8 @@ fi
 echo 'Instalando uma correção de libs python3...'
 sudo apt install python3-dev -y
 sudo apt install python3-wheel -y
-sudo apt install python3-virtualenv -y
-sudo apt install python3-venv -y
+sudo apt-get install python3-virtualenv -y
+sudo apt-get install python3-venv -y
 sudo apt autoremove -y
 
 declare -a array=()
