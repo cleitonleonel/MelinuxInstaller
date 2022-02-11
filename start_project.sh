@@ -38,12 +38,14 @@ echo 'Seu sistema operacional é ' ${OS}
 # Definindo o path do projeto
 
 echo 'Path do projeto'
+project_system='melinux_web'
+
 if [[ "${OS}" == "Linux-x86_64" ]];
   then
-    project_system='lin_melinux'
+    project_system=${project_system}
 elif [[ "${OS}" == "Raspberry" ]];
   then
-    project_system='arm_melinux'
+    project_system=${project_system}
 fi
 
 # Iniciando virtualenv

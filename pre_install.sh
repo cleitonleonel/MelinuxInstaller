@@ -1,6 +1,6 @@
 #!/bin/bash
 # Shell installing Melinux prerequites
-# Otmasolucoes version 2020
+# Otmasolucoes version 2022
 # For Melinux contribs and components
 
 # Iniciando instalação
@@ -12,7 +12,6 @@ sudo apt install -y libpq-dev
 sudo apt install -y libssl-dev zlib1g-dev gcc g++ make
 
 sudo chown -R $USER:$USER ./
-sudo mkdir ../arm_melinux
 
 # Check Sistema Operacional
 ARCH=$(uname -m)
@@ -46,6 +45,20 @@ else
 fi
 
 echo 'Seu sistema operacional é ' ${OS}
+
+
+# Definindo o path do projeto
+echo 'Path do projeto'
+project_system='melinux_web'
+
+if [[ "${OS}" == "Linux-x86_64" ]];
+  then
+    sudo mkdir ~/${project_system}
+elif [[ "${OS}" == "Raspberry" ]];
+  then
+    sudo mkdir ~/${project_system}
+fi
+
 
 # Check and installing git
 if which git > /dev/null 2>&1;
@@ -111,17 +124,8 @@ fi
 # Corrigir possíveis erros na instalação de dependências do python3
 echo 'Instalando uma correção de libs python3...'
 sudo apt install python3-dev -y
-
-# Definindo o path do projeto
-
-echo 'Path do projeto'
-if [[ "${OS}" == "Linux-x86_64" ]];
-  then
-    project_system='lin_melinux'
-elif [[ "${OS}" == "Raspberry" ]];
-  then
-    project_system='arm_melinux'
-fi
+sudo apt install python3-wheel -y
+sudo apt install python3-virtualenv -y
 
 declare -a array=()
 i=0
@@ -135,6 +139,8 @@ user=$(echo ${array[0]} | sed "s/GITHUB_USER = '/'/g")
 
 pass=$(echo ${array[1]} | sed "s/GITHUB_PASSWORD = '/'/g")
 
+token=$(echo ${array[1]} | sed "s/GITHUB_TOKEN = '/'/g")
+
 user=$(echo ${user} | sed "s/'//g")
 pass=$(echo ${pass} | sed "s/'//g")
 
@@ -145,14 +151,13 @@ if [[ "${user}" == "" ]];
 fi
 
 # Mudando de diretório e movendo os arquivos
-sudo mv * ../arm_melinux
-dir=../arm_melinux
-cd ${dir}
+sudo mv * ~/${project_system}
+
+cd ~/${project_system} || exit
 
 # Create virtualenv
 echo 'Criando ambiente virtual do projeto'
 # python3 -m pip install virtualenv --no-warn-script-location
-sudo apt install python3-virtualenv -y
 virtualenv venv_melinux
 env='venv_melinux/bin/activate'
 echo 'Ativando ambiente virtual'
@@ -167,7 +172,7 @@ py="/home/${project_system}/venv_melinux/bin/python"
 pip_install="pip install"
 pip_uninstall="pip uninstall"
 manager="install_project.py install"
-${pip_install} -U setuptools
+${pip_install} --upgrade pip wheel setuptools
 ${py} ${manager}
 
 # Download do projeto
@@ -179,6 +184,7 @@ password=${pass}
 echo ${username}
 echo ${password}
 
+pip3 install git+https://${token}@github.com/otmasolucoes/apps.core.authentication.git
 git clone https://${username}:${password}@github.com/otmasolucoes/test_project.git ./temp
 
 # Movendo arquivos

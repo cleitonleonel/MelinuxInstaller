@@ -1,5 +1,5 @@
-from pip.__main__ import _main as pip
-from sys import platform as _sys_platform
+# from pip.__main__ import _main as pip
+from pip import main as pip
 import os
 import sys
 
@@ -25,76 +25,59 @@ delete_apps = [
 ]
 
 
-class PipManager:
+class PipManager(object):
 
-    def __init__(self, args):
-        if args[1] == 'install':
-            self.install(args)
-        elif args[1] == 'upgrade':
-            self.upgrade(args)
+    def __init__(self, parameters):
+        if parameters[1] == 'install':
+            self.install(parameters)
+        elif parameters[1] == 'upgrade':
+            self.upgrade(parameters)
         else:
-            self.uninstall(args)
+            self.uninstall(parameters)
 
-    def install(self, args):
-        if len(args) > 2:
-            pip([args[1], args[2]])
+    @staticmethod
+    def install(parameters):
+        print(args[1])
+        if len(parameters) > 2:
+            pip([parameters[1], parameters[2]])
         else:
             for package in packages:
                 for line in open(package):
                     if line.startswith('@git'):
-                        username = profile.GITHUB_USER
-                        password = profile.GITHUB_PASSWORD
-                        command = f'git+https://{username}:{password}{line}'
+                        token = profile.GITHUB_TOKEN
+                        command = f'git+https://{token}{line}'
+                        print(f"pip install {command}")
                         pip([args[1], command])
-                    elif '==' in line:
+                    else:
                         pip([args[1], line])
 
-    def upgrade(self, args):
-        if len(args) > 2:
-            pip(['install', '--' + args[1], args[2]])
+    @staticmethod
+    def upgrade(parameters):
+        if len(parameters) > 2:
+            pip(['install', '--' + parameters[1], parameters[2]])
         else:
             for package in packages:
                 for line in open(package):
                     if line.startswith('@git'):
-                        username = profile.GITHUB_USER
-                        password = profile.GITHUB_PASSWORD
-                        command = f'git+https://{username}:{password}{line}'
+                        token = profile.GITHUB_TOKEN
+                        command = f'git+https://{token}{line}'
                         pip(['install', '-U', command])
                     elif line.startswith('git+'):
                         pip(['install', '-U', line])
 
-    def uninstall(self, args):
-        if len(args) > 2:
-            pip([args[1], args[2]])
+    @staticmethod
+    def uninstall(parameters):
+        if len(parameters) > 2:
+            pip([parameters[1], parameters[2]])
         else:
             for app in delete_apps:
                 if app != 'uninstall':
-                    pip([args[1], '-y', app])
-
-
-def _get_platform():
-    if 'P4A_BOOTSTRAP' in os.environ:
-        return 'android'
-    elif 'ANDROID_ARGUMENT' in os.environ:
-        return 'android'
-    elif _sys_platform in ('win32', 'cygwin'):
-        return 'win'
-    elif _sys_platform == 'darwin':
-        return 'macosx'
-    elif _sys_platform.startswith('linux'):
-        return 'linux'
-    elif _sys_platform.startswith('freebsd'):
-        return 'linux'
-    return 'unknown'
-
-
-platform = _get_platform()
+                    pip([parameters[1], '-y', app])
 
 
 if __name__ == '__main__':
     args = sys.argv
     if len(args) > 1:
-        manager = PipManager
-        manager(args)
+        manager = PipManager(args)
     else:
         print('Nenhum comando...')
