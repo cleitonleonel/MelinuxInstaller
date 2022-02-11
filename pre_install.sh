@@ -53,10 +53,10 @@ project_system='melinux_web'
 
 if [[ "${OS}" == "Linux-x86_64" ]];
   then
-    sudo mkdir ~/${project_system}
+    sudo mkdir /home/${project_system}
 elif [[ "${OS}" == "Raspberry" ]];
   then
-    sudo mkdir ~/${project_system}
+    sudo mkdir /home/${project_system}
 fi
 
 
@@ -144,6 +144,8 @@ token=$(echo ${array[1]} | sed "s/GITHUB_TOKEN = '/'/g")
 
 user=$(echo ${user} | sed "s/'//g")
 pass=$(echo ${pass} | sed "s/'//g")
+token=$(echo ${token} | sed "s/'//g")
+
 
 if [[ "${user}" == "" ]];
   then
@@ -152,14 +154,14 @@ if [[ "${user}" == "" ]];
 fi
 
 # Mudando de diretório e movendo os arquivos
-sudo mv * ~/${project_system}
+sudo mv * /home/${project_system}
 
-cd ~/${project_system} || exit
+cd /home/${project_system} || exit
 
 # Create virtualenv
 echo 'Criando ambiente virtual do projeto'
 # python3 -m pip install virtualenv --no-warn-script-location
-virtualenv venv_melinux
+python3 -m venv venv_melinux
 env='venv_melinux/bin/activate'
 echo 'Ativando ambiente virtual'
 source ${env}
@@ -170,8 +172,8 @@ source ${env}
 # Dependências do projeto
 echo 'Instalando o requirements do projeto...'
 py="/home/${project_system}/venv_melinux/bin/python"
-pip_install="pip3 install"
-pip_uninstall="pip3 uninstall"
+pip_install="pip install"
+pip_uninstall="pip uninstall"
 manager="install_project.py install"
 ${pip_install} --upgrade pip wheel setuptools
 ${py} ${manager}
@@ -181,12 +183,14 @@ echo 'Instalando o projeto...'
 
 username=${user}
 password=${pass}
+token=${token}
 
 echo ${username}
 echo ${password}
+echo ${token}
 
 pip3 install git+https://${token}@github.com/otmasolucoes/apps.core.authentication.git
-git clone https://${username}:${password}@github.com/otmasolucoes/test_project.git ./temp
+git clone https://${token}@github.com/otmasolucoes/test_project.git ./temp
 
 # Movendo arquivos
 echo 'Configurando as pastas do projeto.'
