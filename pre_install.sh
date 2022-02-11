@@ -64,10 +64,12 @@ if [[ "${OS}" == "Linux-x86_64" ]];
   then
     sudo mkdir /home/${project_system}
     sudo chmod 777 -R /home/${project_system}
+    sudo chown $USER:$USER -R /home/${project_system}
 elif [[ "${OS}" == "Raspberry" ]];
   then
     sudo mkdir /home/${project_system}
     sudo chmod 777 -R /home/${project_system}
+    sudo chown $USER:$USER -R /home/${project_system}
 fi
 
 
@@ -176,14 +178,14 @@ echo 'Configurando as pastas do projeto.'
 sudo mv ./profile.py /home/${project_system}/conf/profile.py
 # Mudando de diretório e movendo os arquivos
 sudo mv * /home/${project_system}
-sudo rm /home/MelinuxInstaller
+sudo rm -r /home/MelinuxInstaller
 sudo chmod 777 -R /home/${project_system}
 cd /home/${project_system} || return
 
 # Create virtualenv
 echo 'Criando ambiente virtual do projeto'
 # python3 -m pip install virtualenv --no-warn-script-location
-sudo python3 -m venv /home/venv_melinux
+python3 -m venv /home/venv_melinux
 sudo chmod 777 -R /home/venv_melinux
 env='/home/venv_melinux/bin/activate'
 echo 'Ativando ambiente virtual'
