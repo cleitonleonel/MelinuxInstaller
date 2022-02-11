@@ -119,7 +119,6 @@ then
 else
     echo 'Instalando Python3.8...'
     sudo apt install python3.8 -y
-    sudo apt install python3.8-venv -y
 fi
 
 # Check and installing pip
@@ -129,13 +128,15 @@ then
 else
     echo 'Instalando Pip3...'
     sudo apt install python3-pip -y
-    sudo apt install python3-setuptools -y
 fi
 
 # Corrigir possíveis erros na instalação de dependências do python3
 echo 'Instalando uma correção de libs python3...'
 sudo apt install python3-dev -y
 sudo apt install python3-wheel -y
+sudo apt install python3-setuptools -y
+sudo apt install python3.8-venv python3-venv -y
+sudo apt-get install python3-distutils
 sudo apt autoremove -y
 
 declare -a array=()
