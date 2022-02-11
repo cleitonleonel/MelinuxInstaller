@@ -10,7 +10,10 @@ sudo rm /var/cache/apt/archives/lock
 sudo dpkg --configure -a
 
 # Iniciando instalação
-sudo apt update & sudo apt list --upgradable & sudo apt upgrade & sudo apt autoremove -y
+sudo apt update -y
+sudo apt list --upgradable
+sudo apt upgrade
+sudo apt autoremove -y
 
 echo 'Instalando libs extra'
 sudo apt install libhdf5-dev -y
@@ -132,7 +135,6 @@ echo 'Instalando uma correção de libs python3...'
 sudo apt install python3-dev -y
 sudo apt install python3-wheel -y
 sudo apt-get install python3-virtualenv -y
-sudo apt-get install python3-venv -y
 sudo apt autoremove -y
 
 declare -a array=()
@@ -168,7 +170,7 @@ cd /home/${project_system} || exit
 # Create virtualenv
 echo 'Criando ambiente virtual do projeto'
 # python3 -m pip install virtualenv --no-warn-script-location
-python3 -m venv venv_melinux
+python3 -m virtualenv venv_melinux
 env='venv_melinux/bin/activate'
 echo 'Ativando ambiente virtual'
 source ${env}
