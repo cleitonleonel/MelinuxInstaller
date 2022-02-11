@@ -20,7 +20,7 @@ sudo apt install libhdf5-dev -y
 sudo apt install libpq-dev -y
 sudo apt install libssl-dev zlib1g-dev gcc g++ make -y
 
-echo $USER
+echo ${USER}
 
 # Check Sistema Operacional
 ARCH=$(uname -m)
@@ -62,14 +62,14 @@ project_system='melinux_web'
 
 if [[ "${OS}" == "Linux-x86_64" ]];
   then
-    sudo mkdir /home/${project_system}
-    sudo chmod 777 -R /home/${project_system}
-    sudo chown $USER:$USER -R /home/${project_system}
+    sudo mkdir /home/${USER}/${project_system}
+    sudo chmod 777 -R /home/${USER}/${project_system}
+    sudo chown ${USER}:${USER} -R /home/${USER}/${project_system}
 elif [[ "${OS}" == "Raspberry" ]];
   then
-    sudo mkdir /home/${project_system}
-    sudo chmod 777 -R /home/${project_system}
-    sudo chown $USER:$USER -R /home/${project_system}
+    sudo mkdir /home/${USER}/${project_system}
+    sudo chmod 777 -R /home/${USER}/${project_system}
+    sudo chown ${USER}:${USER} -R /home/${USER}/${project_system}
 fi
 
 
@@ -164,30 +164,30 @@ token=$(echo ${token} | sed "s/'//g")
 
 if [[ "${user}" == "" ]];
   then
-    echo 'Antes de executar esse arquivo configure o arquivo profile.py em' /home/MelinuxInstaller/config/
+    echo 'Antes de executar esse arquivo configure o arquivo profile.py em' /home/${USER}/MelinuxInstaller/config/
     exit 0
 fi
 
 # Download do projeto
 echo 'Instalando o projeto...'
 echo ${token}
-sudo git clone https://${token}@github.com/otmasolucoes/test_project.git /home/${project_system}
+sudo git clone https://${token}@github.com/otmasolucoes/test_project.git /home/${USER}/${project_system}
 
 # Movendo arquivos
 echo 'Configurando as pastas do projeto.'
-sudo mv ./profile.py /home/${project_system}/conf/profile.py
+sudo mv ./profile.py /home/${USER}/${project_system}/conf/profile.py
 # Mudando de diretório e movendo os arquivos
-sudo mv * /home/${project_system}
-sudo rm -r /home/MelinuxInstaller
-sudo chmod 777 -R /home/${project_system}
-cd /home/${project_system} || return
+sudo mv * /home/${USER}/${project_system}
+sudo rm -r /home/${USER}/MelinuxInstaller
+sudo chmod 777 -R /home/${USER}/${project_system}
+cd /home/${USER}/${project_system} || return
 
 # Create virtualenv
 echo 'Criando ambiente virtual do projeto'
 # python3 -m pip install virtualenv --no-warn-script-location
-python3 -m venv /home/venv_melinux
-sudo chmod 777 -R /home/venv_melinux
-env='/home/venv_melinux/bin/activate'
+python3 -m venv /home/${USER}/venv_melinux
+sudo chmod 777 -R /home/${USER}/venv_melinux
+env=/home/${USER}/venv_melinux/bin/activate
 echo 'Ativando ambiente virtual'
 source ${env}
 
@@ -196,7 +196,7 @@ source ${env}
 
 # Dependências do projeto
 echo 'Instalando o requirements do projeto...'
-py="/home/venv_melinux/bin/python3"
+py=/home/${USER}/venv_melinux/bin/python3
 pip_install="pip3 install"
 pip_uninstall="pip3 uninstall"
 manager="install_project.py install"
