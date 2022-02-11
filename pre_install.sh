@@ -170,7 +170,7 @@ fi
 # Download do projeto
 echo 'Instalando o projeto...'
 echo ${token}
-sudo git clone https://${token}@github.com/otmasolucoes/test_project.git ./${project_system}
+sudo git clone https://${token}@github.com/otmasolucoes/test_project.git /${project_system}
 
 # Movendo arquivos
 echo 'Configurando as pastas do projeto.'
@@ -184,6 +184,7 @@ cd /home/${project_system} || return
 echo 'Criando ambiente virtual do projeto'
 # python3 -m pip install virtualenv --no-warn-script-location
 sudo python3 -m venv /home/venv_melinux
+sudo chmod 777 -R /home/venv_melinux
 env='/home/venv_melinux/bin/activate'
 echo 'Ativando ambiente virtual'
 source ${env}
