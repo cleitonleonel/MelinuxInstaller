@@ -126,6 +126,7 @@ echo 'Instalando uma correção de libs python3...'
 sudo apt install python3-dev -y
 sudo apt install python3-wheel -y
 sudo apt install python3-virtualenv -y
+sudo apt install python3-venv -y
 sudo apt autoremove -y
 
 declare -a array=()
@@ -189,7 +190,7 @@ echo ${username}
 echo ${password}
 echo ${token}
 
-pip3 install git+https://${token}@github.com/otmasolucoes/apps.core.authentication.git
+#pip3 install git+https://${token}@github.com/otmasolucoes/apps.core.authentication.git
 git clone https://${token}@github.com/otmasolucoes/test_project.git ./temp
 
 # Movendo arquivos
