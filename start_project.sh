@@ -56,6 +56,6 @@ source ${env}
 
 # Starting projeto
 
-py="/home/${project_system}/venv_melinux/bin/python"
+py="/home/${project_system}/venv_melinux/bin/python3"
 run="manage.py runserver 0.0.0.0:9000"
 ${py} ${run}
