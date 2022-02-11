@@ -36,7 +36,7 @@ python-barcode==0.13.1
 python-bidi==0.4.2
 python-Levenshtein==0.12.0
 pytz==2018.9
-PyYAML==5.1
+PyYAML==5.4
 qrcode==7.3.1
 rcssmin==1.0.6
 redis==3.5.3
