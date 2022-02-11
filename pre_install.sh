@@ -63,9 +63,11 @@ project_system='melinux_web'
 if [[ "${OS}" == "Linux-x86_64" ]];
   then
     sudo mkdir /home/${project_system}
+    sudo chmod 777 -R /home/${project_system}
 elif [[ "${OS}" == "Raspberry" ]];
   then
     sudo mkdir /home/${project_system}
+    sudo chmod 777 -R /home/${project_system}
 fi
 
 
@@ -166,6 +168,7 @@ fi
 
 # Mudando de diretório e movendo os arquivos
 sudo mv * /home/${project_system}
+sudo chmod 777 -R /home/${project_system}
 
 cd /home/${project_system} || exit
 
