@@ -62,14 +62,12 @@ project_system='melinux_web'
 
 if [[ "${OS}" == "Linux-x86_64" ]];
   then
-    sudo mkdir /home/${USER}/${project_system}
-    sudo chmod 777 -R /home/${USER}/${project_system}
-    sudo chown ${USER}:${USER} -R /home/${USER}/${project_system}
+    mkdir ~/${project_system}
+    chmod 777 -R ~/${project_system}
 elif [[ "${OS}" == "Raspberry" ]];
   then
-    sudo mkdir /home/${USER}/${project_system}
-    sudo chmod 777 -R /home/${USER}/${project_system}
-    sudo chown ${USER}:${USER} -R /home/${USER}/${project_system}
+    mkdir ~/${project_system}
+    sudo chmod 777 -R ~/${project_system}
 fi
 
 
@@ -149,7 +147,7 @@ i=0
 while IFS= read -r line; do
     array[i]=$line
     let "i++"
-done < /home/${USER}/MelinuxInstaller/config/profile.py
+done < ~/MelinuxInstaller/config/profile.py
 
 user=$(echo ${array[0]} | sed "s/GITHUB_USER = '/'/g")
 
@@ -164,30 +162,31 @@ token=$(echo ${token} | sed "s/'//g")
 
 if [[ "${user}" == "" ]];
   then
-    echo 'Antes de executar esse arquivo configure o arquivo profile.py em' /home/${USER}/MelinuxInstaller/config/
+    echo 'Antes de executar esse arquivo configure o arquivo profile.py em' ~/MelinuxInstaller/config/
     exit 0
 fi
 
 # Download do projeto
 echo 'Instalando o projeto...'
 echo ${token}
-git clone https://${token}@github.com/otmasolucoes/test_project.git /home/${USER}/${project_system}
+git clone https://${token}@github.com/otmasolucoes/test_project.git ~/${project_system}
 
-# Movendo arquivos
+# Copiando arquivos
 echo 'Configurando as pastas do projeto.'
-sudo mv ./profile.py /home/${USER}/${project_system}/conf/profile.py
+cp ./profile.py ~/${project_system}/conf/profile.py
 # Mudando de diretório e movendo os arquivos
-sudo mv * /home/${USER}/${project_system}
-sudo rm -r /home/${USER}/MelinuxInstaller
-sudo chmod 777 -R /home/${USER}/${project_system}
-cd /home/${USER}/${project_system} || return
+cp * ~/${project_system}
+
+chmod 777 -R ~/${project_system}
+cd ~/${project_system} || return
 
 # Create virtualenv
 echo 'Criando ambiente virtual do projeto'
 # python3 -m pip install virtualenv --no-warn-script-location
-python3 -m venv /home/${USER}/venv_melinux
-sudo chmod 777 -R /home/${USER}/venv_melinux
-env=/home/${USER}/venv_melinux/bin/activate
+mkdir ~/venvs
+python3 -m venv ~/venvs/venv_melinux
+chmod 777 -R ~/venvs/venv_melinux
+env=~/venvs/venv_melinux/bin/activate
 echo 'Ativando ambiente virtual'
 source ${env}
 
@@ -196,11 +195,15 @@ source ${env}
 
 # Dependências do projeto
 echo 'Instalando o requirements do projeto...'
-py=/home/${USER}/venv_melinux/bin/python3
-pip_install="pip3 install"
-pip_uninstall="pip3 uninstall"
+py=~/venvs/venv_melinux/bin/python3
+
+#pip_install="pip3 install"
+#pip_uninstall="pip3 uninstall"
+
 manager="install_project.py install"
-${pip_install} --upgrade pip wheel setuptools
+
+#${pip_install} --upgrade pip wheel setuptools
+
 ${py} ${manager}
 
 # Instalando dependências do frontend
