@@ -175,7 +175,7 @@ git clone https://${token}@github.com/otmasolucoes/test_project.git ~/${project_
 echo 'Configurando as pastas do projeto.'
 cp ./profile.py ~/${project_system}/conf/profile.py
 # Mudando de diretório e movendo os arquivos
-cp -r ./ ~/${project_system}
+cp -R ./ ~/${project_system}
 
 chmod 777 -R ~/${project_system}
 cd ~/${project_system} || return
