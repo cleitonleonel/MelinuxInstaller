@@ -171,7 +171,7 @@ fi
 # Download do projeto
 echo 'Instalando o projeto...'
 echo ${token}
-sudo git clone https://${token}@github.com/otmasolucoes/test_project.git /home/${USER}/${project_system}
+git clone https://${token}@github.com/otmasolucoes/test_project.git /home/${USER}/${project_system}
 
 # Movendo arquivos
 echo 'Configurando as pastas do projeto.'
