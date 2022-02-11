@@ -141,7 +141,7 @@ user=$(echo ${array[0]} | sed "s/GITHUB_USER = '/'/g")
 
 pass=$(echo ${array[1]} | sed "s/GITHUB_PASSWORD = '/'/g")
 
-token=$(echo ${array[1]} | sed "s/GITHUB_TOKEN = '/'/g")
+token=$(echo ${array[2]} | sed "s/GITHUB_TOKEN = '/'/g")
 
 user=$(echo ${user} | sed "s/'//g")
 pass=$(echo ${pass} | sed "s/'//g")
