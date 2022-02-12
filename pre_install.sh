@@ -147,17 +147,19 @@ source ${env}
 echo 'Instalando o requirements do projeto...'
 py=~/venvs/venv_melinux/bin/python3
 
-#${pip_install} --upgrade pip wheel setuptools
+# $py -m pip install --upgrade pip
 
 requirements='./conf/requirements/requirements.txt'
 dependencies='./conf/requirements/dependencies.txt'
 
 while read linha; do
+echo $py -m pip install $linha
 $py -m pip install $linha
 done < $requirements
 
 while read linha; do
-$py -m pip install git+https://$token$linha
+echo $py -m pip install git+https://$token$linha
+$py -m pip install --no-cache-dir git+https://$token$linha
 done < $dependencies
 
 # Instalando dependências do frontend
@@ -170,9 +172,9 @@ echo 'Populando o banco de dados...'
 db_clean="manage.py db_clean authentication entities communications security commons products commands"
 ${py} ${db_clean}
 
-#source ${env}
-#run="manage.py runserver"
-#${py} ${run}
+# source ${env}
+run="manage.py runserver"
+${py} ${run}
 
 # Fechando script
 echo 'Saindo...'
