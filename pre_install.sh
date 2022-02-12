@@ -2,6 +2,7 @@
 # Shell installing Melinux prerequites
 # Otmasolucoes version 2022
 # For Melinux contribs and components
+#
 COMMAND=$1
 
 echo -e "\nInsira o token admin para iniciar a instalação do sistema\n"
@@ -137,8 +138,12 @@ mkdir ~/venvs
 python3 -m venv ~/venvs/venv_melinux
 chmod 777 -R ~/venvs/venv_melinux
 env=~/venvs/venv_melinux/bin/activate
+
 echo 'Ativando ambiente virtual'
-source ${env}
+#source ${env}
+script_dir=`dirname $0`
+cd $script_dir
+/bin/bash -c ". ${env}; exec /bin/bash --rcfile <(echo 'PS1=\"(venv)\${PS1}\"') -i"
 
 #echo 'Desativando ambiente virtual'
 #deactivate
