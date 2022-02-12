@@ -126,7 +126,7 @@ git clone https://"${token}"@github.com/otmasolucoes/test_project.git ~/${projec
 # Copiando arquivos
 echo 'Configurando as pastas do projeto.'
 mv ./profile.py ~/${project_system}/conf/profile.py
-mv ./start_project ~/${project_system}
+mv ./start_project.sh ~/${project_system}
 
 chmod 777 -R ~/${project_system}
 
@@ -150,8 +150,6 @@ echo 'Ativando ambiente virtual'
 
 activate
 
-which python
-
 #echo 'Desativando ambiente virtual'
 #deactivate
 
@@ -159,11 +157,11 @@ which python
 echo 'Instalando o requirements do projeto...'
 py=~/venvs/venv_melinux/bin/python
 
-$py -m pip install --upgrade pip wheel setuptools
+# python -m pip install --upgrade pip wheel setuptools
 
-$py manager_pip.py uninstall
-$py manager_pip.py install
-$py manage.py bower_install
+python manager_pip.py uninstall
+python manager_pip.py install
+python manage.py bower_install
 
 function force_install() {
   requirements='./conf/requirements/requirements.txt'
@@ -182,17 +180,13 @@ function force_install() {
 
 # Instalando dependências do frontend
 echo "Bower install, dependências frontend..."
-bower_install="manage.py bower_install --allow-root"
-${py} "${bower_install}"
+python manage.py bower_install --allow-root
 
 # Subindo as migrações para o banco de dados.
 echo 'Populando o banco de dados...'
-db_clean="manage.py db_clean authentication entities communications security commons products commands"
-${py} "${db_clean}"
+python manage.py db_clean authentication entities communications security commons products commands
 
-# source ${env}
-run="manage.py runserver"
-${py} "${run}"
+python manage.py runserver
 
 # Fechando script
 echo 'Saindo...'
