@@ -145,12 +145,12 @@ activate () {
 
 echo 'Ativando ambiente virtual'
 # rm -rf ~/MelinuxInstaller
-#source ${env}
+# source ${env}
 
 activate
 
-#echo 'Desativando ambiente virtual'
-#deactivate
+# echo 'Desativando ambiente virtual'
+# deactivate
 
 # Dependências do projeto
 echo 'Instalando o requirements do projeto...'
