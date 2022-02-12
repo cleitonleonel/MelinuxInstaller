@@ -36,7 +36,7 @@ function exec_upgrades() {
   sudo apt install libssl-dev zlib1g-dev gcc g++ make -y
 }
 
-echo ${USER}
+echo "${USER}"
 
 # Definindo o path do projeto
 echo 'Path do projeto'
@@ -120,17 +120,15 @@ function exec_upgrades_python() {
 
 # Download do projeto
 echo 'Instalando o projeto...'
-echo ${token}
-git clone https://${token}@github.com/otmasolucoes/test_project.git ~/${project_system}
+echo "${token}"
+git clone https://"${token}"@github.com/otmasolucoes/test_project.git ~/${project_system}
 
 # Copiando arquivos
 echo 'Configurando as pastas do projeto.'
 mv ./profile.py ~/${project_system}/conf/profile.py
-cp -R ./ ~/${project_system}
-rm -rf ~/MelinuxInstaller
+mv ./start_project ~/${project_system}
 
 chmod 777 -R ~/${project_system}
-cd ~/${project_system} || return
 
 # Create virtualenv
 echo 'Criando ambiente virtual do projeto'
@@ -139,47 +137,60 @@ python3 -m venv ~/venvs/venv_melinux
 chmod 777 -R ~/venvs/venv_melinux
 env=~/venvs/venv_melinux/bin/activate
 
+cd ~/${project_system} || return
+
+activate () {
+    . ${env}
+}
+
 echo 'Ativando ambiente virtual'
+# rm -rf ~/MelinuxInstaller
 #source ${env}
-script_dir=`dirname $0`
-cd $script_dir
-/bin/bash -c ". ${env}; exec /bin/bash --rcfile <(echo 'PS1=\"(venv)\${PS1}\"') -i"
+activate
+
+which python
 
 #echo 'Desativando ambiente virtual'
 #deactivate
 
 # Dependências do projeto
 echo 'Instalando o requirements do projeto...'
-py=~/venvs/venv_melinux/bin/python3
+py=~/venvs/venv_melinux/bin/python
 
 $py -m pip install --upgrade pip wheel setuptools
 
-requirements='./conf/requirements/requirements.txt'
-dependencies='./conf/requirements/dependencies.txt'
+$py manager_pip.py uninstall
+$py manager_pip.py install
+$py manage.py bower_install
 
-while read linha; do
-echo $py -m pip install $linha
-$py -m pip install $linha
-done < $requirements
+function force_install() {
+  requirements='./conf/requirements/requirements.txt'
+  dependencies='./conf/requirements/dependencies.txt'
 
-while read linha; do
-echo $py -m pip install git+https://$token$linha
-$py -m pip install --no-cache-dir git+https://$token$linha
-done < $dependencies
+  while read linha; do
+  echo $py -m pip install "$linha"
+  $py -m pip install "$linha"
+  done < $requirements
+
+  while read linha; do
+  echo $py -m pip install git+https://"$token""$linha"
+  $py -m pip install --no-cache-dir git+https://"$token""$linha"
+  done < $dependencies
+}
 
 # Instalando dependências do frontend
 echo "Bower install, dependências frontend..."
 bower_install="manage.py bower_install --allow-root"
-${py} ${bower_install}
+${py} "${bower_install}"
 
 # Subindo as migrações para o banco de dados.
 echo 'Populando o banco de dados...'
 db_clean="manage.py db_clean authentication entities communications security commons products commands"
-${py} ${db_clean}
+${py} "${db_clean}"
 
 # source ${env}
 run="manage.py runserver"
-${py} ${run}
+${py} "${run}"
 
 # Fechando script
 echo 'Saindo...'
