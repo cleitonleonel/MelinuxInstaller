@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 # Shell installing Melinux prerequites
 # Otmasolucoes version 2022
 # For Melinux contribs and components
@@ -138,14 +138,16 @@ chmod 777 -R ~/venvs/venv_melinux
 env=~/venvs/venv_melinux/bin/activate
 
 cd ~/${project_system} || return
+sed -i "10s/GITHUB_TOKEN = ''/GITHUB_TOKEN = '${token}'/" ./conf/profile.py
 
 activate () {
-    . ${env}
+  . ${env}
 }
 
 echo 'Ativando ambiente virtual'
 # rm -rf ~/MelinuxInstaller
 #source ${env}
+
 activate
 
 which python
