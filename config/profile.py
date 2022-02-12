@@ -1,5 +1,0 @@
-GITHUB_USER = ''
-GITHUB_PASSWORD = ''
-GITHUB_TOKEN = ''
-REQUIREMENTS = r'config/requirements/requirements.txt'
-DEPENDENCIES = r'config/requirements/dependencies.txt'

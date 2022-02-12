@@ -1,14 +1,19 @@
 import os
 
 BOWER_PATH = '/usr/local/bin/bower'
+
 # EMAIL_HOST_USER = ''
 # EMAIL_HOST_PASSWORD = ''
+
 GITHUB_USER = ''
 GITHUB_PASSWORD = ''
 GITHUB_TOKEN = ''
+
 POSTGRES_USER = 'postgres'
 POSTGRES_PASSWORD = 'postgres'
+
 PROFILE_REDIS_SERVER = '192.168.2.163'
+
 PROJECT_KEY = '14766F28ACC2E7408F1B'
 USER_KEY = '60ab57d30b5fa2b27aed'
 # USER_KEY = '6803f3694a16f6fa8d85'
@@ -24,5 +29,9 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 
-MELINUX_INTEGRATION_PATH = os.path.join(os.path.expanduser("~/"), "clientes/gigabyte/01")  # DIRETÓRIO ONDE SERÃO SALVOS OS ARQUIVOS DE INTEGRAÇÃO ENTRE OS SISTEMAS
+COMPANY_NAME = 'Connect Carnes'
+PATH_COMPANY_LOGO = '/media/images/company_logo.png'
+
+# DIRETÓRIO ONDE SERÃO SALVOS OS ARQUIVOS DE INTEGRAÇÃO ENTRE OS SISTEMAS
+MELINUX_INTEGRATION_PATH = os.path.join(os.path.expanduser("~/"), "clientes/gigabyte/01")
 PRINTER_CONFIG = 'POS80'  # NOME DA IMPRESSORA A SER USADA EXE:CUPS-PDF-Printer

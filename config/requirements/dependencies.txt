@@ -1,8 +1,0 @@
-@github.com/otmasolucoes/apps.core.communications.git
-@github.com/otmasolucoes/apps.core.commons.git
-@github.com/otmasolucoes/apps.core.authentication.git
-@github.com/otmasolucoes/apps.core.management.git
-@github.com/otmasolucoes/apps.core.security.git
-@github.com/otmasolucoes/apps.entities.git
-@github.com/otmasolucoes/apps.products.git
-@github.com/otmasolucoes/apps.sales.commands.git

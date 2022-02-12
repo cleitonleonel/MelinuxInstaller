@@ -3,6 +3,9 @@
 # Otmasolucoes version 2022
 # For Melinux contribs and components
 
+echo -e "\nInsira o token admin para iniciar a instalação do sistema\n"
+read -rp 'Token: ' token
+
 sudo rm /var/lib/apt/lists/lock
 sudo rm /var/lib/dpkg/lock
 sudo rm /var/lib/dpkg/lock-frontend
@@ -141,31 +144,6 @@ sudo apt install python3.8-venv python3-venv -y
 sudo apt-get install python3-distutils
 sudo apt autoremove -y
 
-declare -a array=()
-i=0
-
-while IFS= read -r line; do
-    array[i]=$line
-    let "i++"
-done < ~/MelinuxInstaller/config/profile.py
-
-user=$(echo ${array[0]} | sed "s/GITHUB_USER = '/'/g")
-
-pass=$(echo ${array[1]} | sed "s/GITHUB_PASSWORD = '/'/g")
-
-token=$(echo ${array[2]} | sed "s/GITHUB_TOKEN = '/'/g")
-
-user=$(echo ${user} | sed "s/'//g")
-pass=$(echo ${pass} | sed "s/'//g")
-token=$(echo ${token} | sed "s/'//g")
-
-
-if [[ "${user}" == "" ]];
-  then
-    echo 'Antes de executar esse arquivo configure o arquivo profile.py em' ~/MelinuxInstaller/config/
-    exit 0
-fi
-
 # Download do projeto
 echo 'Instalando o projeto...'
 echo ${token}
@@ -173,8 +151,7 @@ git clone https://${token}@github.com/otmasolucoes/test_project.git ~/${project_
 
 # Copiando arquivos
 echo 'Configurando as pastas do projeto.'
-cp ./profile.py ~/${project_system}/conf/profile.py
-# Mudando de diretório e movendo os arquivos
+mv ./profile.py ~/${project_system}/conf/profile.py
 cp -R ./ ~/${project_system}
 
 chmod 777 -R ~/${project_system}
@@ -182,7 +159,6 @@ cd ~/${project_system} || return
 
 # Create virtualenv
 echo 'Criando ambiente virtual do projeto'
-# python3 -m pip install virtualenv --no-warn-script-location
 mkdir ~/venvs
 python3 -m venv ~/venvs/venv_melinux
 chmod 777 -R ~/venvs/venv_melinux
@@ -197,12 +173,18 @@ source ${env}
 echo 'Instalando o requirements do projeto...'
 py=~/venvs/venv_melinux/bin/python3
 
-#pip_install="pip3 install"
-#pip_uninstall="pip3 uninstall"
-
-manager="install_project.py install"
-
 #${pip_install} --upgrade pip wheel setuptools
+
+requirements='./conf/requirements/requirements.txt'
+dependencies='./conf/requirements/dependencies.txt'
+
+while read linha; do
+$py -m pip install $linha
+done < $requirements
+
+while read linha; do
+$py -m pip install git+https://$token$linha
+done < $dependencies
 
 ${py} ${manager}
 
@@ -216,8 +198,7 @@ echo 'Populando o banco de dados...'
 db_clean="manage.py db_clean authentication entities communications security commons products commands"
 ${py} ${db_clean}
 
-source ${env}
-
+#source ${env}
 #run="manage.py runserver"
 #${py} ${run}
 
