@@ -135,13 +135,12 @@ echo 'Criando ambiente virtual do projeto'
 mkdir ~/venvs
 python3 -m venv ~/venvs/venv_melinux
 chmod 777 -R ~/venvs/venv_melinux
-env=~/venvs/venv_melinux/bin/activate
 
 cd ~/${project_system} || return
 sed -i "10s/GITHUB_TOKEN = ''/GITHUB_TOKEN = '${token}'/" ./conf/profile.py
 
 activate () {
-  . ${env}
+  . ~/venvs/venv_melinux/bin/activate
 }
 
 echo 'Ativando ambiente virtual'
@@ -159,9 +158,9 @@ py=~/venvs/venv_melinux/bin/python
 
 # python -m pip install --upgrade pip wheel setuptools
 
+python manager_pip.py install
 python manager_pip.py uninstall
 python manager_pip.py install
-python manage.py bower_install
 
 function force_install() {
   requirements='./conf/requirements/requirements.txt'
