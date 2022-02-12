@@ -147,7 +147,7 @@ source ${env}
 echo 'Instalando o requirements do projeto...'
 py=~/venvs/venv_melinux/bin/python3
 
-# $py -m pip install --upgrade pip
+$py -m pip install --upgrade pip wheel setuptools
 
 requirements='./conf/requirements/requirements.txt'
 dependencies='./conf/requirements/dependencies.txt'
