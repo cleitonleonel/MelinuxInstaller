@@ -126,6 +126,7 @@ git clone https://${token}@github.com/otmasolucoes/test_project.git ~/${project_
 echo 'Configurando as pastas do projeto.'
 mv ./profile.py ~/${project_system}/conf/profile.py
 cp -R ./ ~/${project_system}
+rm -rf ~/MelinuxInstaller
 
 chmod 777 -R ~/${project_system}
 cd ~/${project_system} || return
