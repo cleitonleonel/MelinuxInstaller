@@ -2,77 +2,46 @@
 # Shell installing Melinux prerequites
 # Otmasolucoes version 2022
 # For Melinux contribs and components
+COMMAND=$1
 
 echo -e "\nInsira o token admin para iniciar a instalação do sistema\n"
 read -rp 'Token: ' token
 
-sudo rm /var/lib/apt/lists/lock
-sudo rm /var/lib/dpkg/lock
-sudo rm /var/lib/dpkg/lock-frontend
-sudo rm /var/cache/apt/archives/lock
-sudo dpkg --configure -a
-
-# Iniciando instalação
-sudo apt update -y
-sudo apt list --upgradable
-sudo apt upgrade
-sudo apt autoremove -y
-
-echo 'Instalando libs extra'
-sudo apt install libhdf5-dev -y
-sudo apt install libpq-dev -y
-sudo apt install libssl-dev zlib1g-dev gcc g++ make -y
-
-echo ${USER}
-
-# Check Sistema Operacional
-ARCH=$(uname -m)
-
-if [ "$OSTYPE" == "linux-gnu" -a "${ARCH}" == "x86_64" ];
-  then
-    OS='Linux-x86_64'
-elif [[ "$OSTYPE" == "linux-android"* ]];
-  then
-    OS='Android'
-elif [[ "$OSTYPE" == "darwin"* ]];
-  then
-    OS='Mac OSX'
-elif [[ "$OSTYPE" == "cygwin" ]];
-  then
-    OS='Windows'
-elif [[ "$OSTYPE" == "msys" ]];
-  then
-    OS='Windows'
-elif [[ "$OSTYPE" == "win32" ]];
-  then
-    OS='Windows-32'
-elif [[ "$OSTYPE" == "freebsd"* ]];
-  then
-    OS='Linux-Freebsd'
-elif [ "$OSTYPE" == "linux-gnu" -a "${ARCH}" == "aarch64" ];
-  then
-    OS='Raspberry'
+if [ "$COMMAND" = "upgrade_all" ]
+then
+  exec_upgrades
+  exec_upgrades_python
 else
-    OS='Unknown'
+  echo ""
 fi
 
-echo 'Seu sistema operacional é ' ${OS}
 
+function exec_upgrades() {
+  sudo rm /var/lib/apt/lists/lock
+  sudo rm /var/lib/dpkg/lock
+  sudo rm /var/lib/dpkg/lock-frontend
+  sudo rm /var/cache/apt/archives/lock
+  sudo dpkg --configure -a
+
+  echo 'Instalando libs extra'
+
+  sudo apt update -y
+  sudo apt list --upgradable
+  sudo apt upgrade
+  sudo apt autoremove -y
+
+  sudo apt install libhdf5-dev -y
+  sudo apt install libpq-dev -y
+  sudo apt install libssl-dev zlib1g-dev gcc g++ make -y
+}
+
+echo ${USER}
 
 # Definindo o path do projeto
 echo 'Path do projeto'
 project_system='melinux_web'
-
-if [[ "${OS}" == "Linux-x86_64" ]];
-  then
-    mkdir ~/${project_system}
-    chmod 777 -R ~/${project_system}
-elif [[ "${OS}" == "Raspberry" ]];
-  then
-    mkdir ~/${project_system}
-    sudo chmod 777 -R ~/${project_system}
-fi
-
+mkdir ~/${project_system}
+sudo chmod 777 -R ~/${project_system}
 
 # Check and installing git
 if which git > /dev/null 2>&1;
@@ -135,14 +104,18 @@ else
     sudo apt install python3-pip -y
 fi
 
+
 # Corrigir possíveis erros na instalação de dependências do python3
-echo 'Instalando uma correção de libs python3...'
-sudo apt install python3-dev -y
-sudo apt install python3-wheel -y
-sudo apt install python3-setuptools -y
-sudo apt install python3.8-venv python3-venv -y
-sudo apt-get install python3-distutils
-sudo apt autoremove -y
+function exec_upgrades_python() {
+  echo 'Instalando uma correção de libs python3...'
+  sudo apt install python3-dev -y
+  sudo apt install python3-wheel -y
+  sudo apt install python3-setuptools -y
+  sudo apt install python3.8-venv python3-venv -y
+  sudo apt-get install python3-distutils
+  sudo apt autoremove -y
+}
+
 
 # Download do projeto
 echo 'Instalando o projeto...'
@@ -185,8 +158,6 @@ done < $requirements
 while read linha; do
 $py -m pip install git+https://$token$linha
 done < $dependencies
-
-${py} ${manager}
 
 # Instalando dependências do frontend
 echo "Bower install, dependências frontend..."
