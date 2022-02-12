@@ -156,7 +156,7 @@ activate
 echo 'Instalando o requirements do projeto...'
 py=~/venvs/venv_melinux/bin/python
 
-# python -m pip install --upgrade pip wheel setuptools
+python -m pip install --upgrade pip wheel setuptools
 
 python manager_pip.py install
 python manager_pip.py uninstall
