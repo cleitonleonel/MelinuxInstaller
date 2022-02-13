@@ -18,6 +18,7 @@ fi
 
 
 function exec_upgrades() {
+  sudo apt --fix-broken install
   sudo rm /var/lib/apt/lists/lock
   sudo rm /var/lib/dpkg/lock
   sudo rm /var/lib/dpkg/lock-frontend
@@ -25,7 +26,6 @@ function exec_upgrades() {
   sudo dpkg --configure -a
 
   echo 'Instalando libs extra'
-
   sudo apt update -y
   sudo apt list --upgradable
   sudo apt upgrade
@@ -104,8 +104,6 @@ else
     echo 'Instalando Pip3...'
     sudo apt install python3-pip -y
 fi
-
-sudo apt --fix-broken install
 
 # Corrigir possíveis erros na instalação de dependências do python3
 function exec_upgrades_python() {
