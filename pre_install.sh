@@ -19,7 +19,7 @@ function exec_upgrades() {
   echo 'Instalando libs extra'
   sudo apt update -y
   sudo apt list --upgradable
-  sudo apt upgrade
+  sudo apt upgrade -y
   sudo apt autoremove -y
 
   sudo apt install libhdf5-dev -y
@@ -34,7 +34,7 @@ function exec_upgrades_python() {
   sudo apt install python3-wheel -y
   sudo apt install python3-setuptools -y
   sudo apt install python3.8-venv python3-venv -y
-  sudo apt-get install python3-distutils
+  sudo apt-get install python3-distutils -y
   sudo apt autoremove -y
 }
 
