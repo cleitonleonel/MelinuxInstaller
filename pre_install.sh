@@ -8,15 +8,6 @@ COMMAND=$1
 echo -e "\nInsira o token admin para iniciar a instalação do sistema\n"
 read -rp 'Token: ' token
 
-if [ "$COMMAND" = "upgrade_all" ]
-then
-  exec_upgrades
-  exec_upgrades_python
-else
-  echo ""
-fi
-
-
 function exec_upgrades() {
   sudo apt --fix-broken install
   sudo rm /var/lib/apt/lists/lock
@@ -35,6 +26,23 @@ function exec_upgrades() {
   sudo apt install libpq-dev -y
   sudo apt install libssl-dev zlib1g-dev gcc g++ make -y
 }
+
+# Corrigir possíveis erros na instalação de dependências do python3
+function exec_upgrades_python() {
+  echo 'Instalando uma correção de libs python3...'
+  sudo apt install python3-dev -y
+  sudo apt install python3-wheel -y
+  sudo apt install python3-setuptools -y
+  sudo apt install python3.8-venv python3-venv -y
+  sudo apt-get install python3-distutils
+  sudo apt autoremove -y
+}
+
+if [ "$COMMAND" = "upgrade_all" ]
+then
+  exec_upgrades
+  exec_upgrades_python
+fi
 
 echo "${USER}"
 
@@ -104,18 +112,6 @@ else
     echo 'Instalando Pip3...'
     sudo apt install python3-pip -y
 fi
-
-# Corrigir possíveis erros na instalação de dependências do python3
-function exec_upgrades_python() {
-  echo 'Instalando uma correção de libs python3...'
-  sudo apt install python3-dev -y
-  sudo apt install python3-wheel -y
-  sudo apt install python3-setuptools -y
-  sudo apt install python3.8-venv python3-venv -y
-  sudo apt-get install python3-distutils
-  sudo apt autoremove -y
-}
-
 
 # Download do projeto
 echo 'Instalando o projeto...'
