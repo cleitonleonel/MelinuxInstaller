@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 #
 COMMAND=$1
 
@@ -11,6 +11,11 @@ env=~/venvs/venv_melinux/bin/activate
 echo 'Ativando ambiente virtual'
 source ${env}
 
+if [ -z "$COMMAND" ]
+then
+  echo "OPTIONS: [runserver, pip_install, pip_uninstall, manager_pip, makemigrations, migrate, db_clean, bower_install"
+  echo "USAGE: start_project.sh <option>"
+fi
 if [ "$COMMAND" = "runserver" ]
 then
   python manage.py runserver 0.0.0.0:9000
@@ -30,6 +35,10 @@ fi
 if [ "$COMMAND" = "migrate" ]
 then
   python manage.py migrate
+fi
+if [ "$COMMAND" = "bower_install" ]
+then
+  python manage.py bower_install
 fi
 if [ "$COMMAND" = "db_clean" ]
 then

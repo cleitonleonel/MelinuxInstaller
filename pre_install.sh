@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 # Shell installing Melinux prerequites
 # Otmasolucoes version 2022
 # For Melinux contribs and components
@@ -146,7 +146,6 @@ activate () {
 echo 'Ativando ambiente virtual'
 # rm -rf ~/MelinuxInstaller
 # source ${env}
-
 activate
 
 # echo 'Desativando ambiente virtual'
@@ -154,10 +153,7 @@ activate
 
 # Dependências do projeto
 echo 'Instalando o requirements do projeto...'
-py=~/venvs/venv_melinux/bin/python
-
 python -m pip install --upgrade pip wheel setuptools
-
 python manager_pip.py install
 python manager_pip.py uninstall
 python manager_pip.py install
