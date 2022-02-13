@@ -105,6 +105,7 @@ else
     sudo apt install python3-pip -y
 fi
 
+sudo apt --fix-broken install
 
 # Corrigir possíveis erros na instalação de dependências do python3
 function exec_upgrades_python() {
